@@ -1,3 +1,4 @@
+In [1]: from bookshelf.models import Book
  retrieved_book = Book.objects.get(id=2)
 
 In [6]: retrieved_book.title ="Nineteen Eighty-Four"
