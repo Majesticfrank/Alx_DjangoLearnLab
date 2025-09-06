@@ -16,7 +16,7 @@ for book in books:
 
 # 2. Books by specific author 
 
-specific_author = Book.objects.filter(author="chinua Achebe")
+specific_author = Book.objects.filter(author=author)
 for book in specific_author:
     print(book.title)
 
