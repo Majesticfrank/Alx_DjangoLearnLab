@@ -28,5 +28,6 @@ for book in library.books.all():
 
 
 # 4. Librarian of a library 
+librarian = Librarian.objects.get(library=)
 librarian =library.librarian 
 print(librarian.name)
