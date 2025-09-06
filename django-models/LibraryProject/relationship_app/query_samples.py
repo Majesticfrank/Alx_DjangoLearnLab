@@ -22,7 +22,7 @@ for book in specific_author:
 
 
 # 3. Books in Library
-library = Library.objects.get(name="Central Library")
+library = Library.objects.get(name=library_name)
 for book in library.books.all():
     print(book.title)
 
