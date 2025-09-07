@@ -15,7 +15,7 @@ for book in books:
 
 
 # 2. Books by specific author 
-author =Author.objects.get(name=author_name)
+author = Author.objects.get(name=author_name)
 specific_author = Book.objects.filter(author=author)
 for book in specific_author:
     print(book.title)
@@ -28,6 +28,6 @@ for book in library.books.all():
 
 
 # 4. Librarian of a library 
-librarian = Librarian.objects.get(library=)
+librarian = Librarian.objects.get(library)
 librarian =library.librarian 
 print(librarian.name)
