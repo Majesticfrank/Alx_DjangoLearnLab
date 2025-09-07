@@ -7,11 +7,11 @@ from django.views.generic import DetailView
 # Create your views here.
 def book_list(request): 
     books = Book.objects.all()
-    output = "<h1> Books</h1> <ul>"
-    for book in books:
-        output += f"<li>{book.title} by {book.author} </li>"
-    output += "</ul>"
-    return HttpResponse(output)
+    return render(
+        request,
+        "relationship_app/list_books.html",  # requirement: use this template
+        {"books": books}
+    )
 
 # Detailed view 
 class LibraryDetailView(DetailView):
