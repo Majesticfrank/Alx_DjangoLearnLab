@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Add Book</title></head>
+<body>
+    <h1>Add a New Book</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>Title: <input type="text" name="title"></p>
+        <p>Author:
+            <select name="author">
+                {% for author in authors %}
+                    <option value="{{ author.id }}">{{ author.name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>Publication Year: <input type="number" name="publication_year"></p>
+        <button type="submit">Add Book</button>
+    </form>
+    <a href="{% url 'book_list' %}">Back to list</a>
+</body>
+</html>
