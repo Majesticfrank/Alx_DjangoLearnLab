@@ -23,9 +23,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-zxv$_1tk(#c_&c$s*k$d)q+k0m40as+j(=+bp3mvr^^!@gyqh@"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+# ✅ Browser protections
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+
+# ✅ Cookies only over HTTPS
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# ✅ If you want HTTPS redirection
+SECURE_SSL_REDIRECT = True
 
 
 # Application definition
@@ -55,6 +66,16 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+INSTALLED_APPS += ['csp']
+
+MIDDLEWARE += ['csp.middleware.CSPMiddleware']
+
+# ✅ Allow scripts and styles only from self
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "https://cdn.jsdelivr.net")  # Example: allow JS CDN
+CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
+CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com")
 
 ROOT_URLCONF = "LibraryProject.urls"
 
