@@ -2,6 +2,7 @@ from rest_framework import generics, serializers
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .models import Book
 from .serializers import BookSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 # List all books (anyone can access)
@@ -9,6 +10,16 @@ class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]  # Read for all, write requires login
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    # Filtering by specific fields
+    filterset_fields = ['title', 'author__name', 'publication_year']
+
+    # Searching (partial match)
+    search_fields = ['title', 'author__name']
+
+    # Ordering (sort results)
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']  # default ordering
 
 
 # Retrieve one book by ID (anyone can access)
@@ -45,3 +56,14 @@ class BookDeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
+
+
+
+# BookListView:
+# - Supports filtering by title, author, and publication_year
+# - Supports searching (partial matches) on title and author name
+# - Supports ordering by title and publication_year
+# Example queries:
+#   /books/?search=Python
+#   /books/?author__name=John Doe
+#   /books/?ordering=-publication_year
