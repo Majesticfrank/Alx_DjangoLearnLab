@@ -33,7 +33,7 @@ def register_view(request):
             user = form.save()
             login(request, user)  # Auto login after registration
             messages.success(request, "Registration successful!")
-            return redirect("book_list")  # redirect to a page in your app
+            return redirect("list_book")  # redirect to a page in your app
     else:
         form = UserCreationForm()
     return render(request, "relationship_app/register.html", {"form": form})
@@ -46,7 +46,7 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             messages.success(request, "Login successful!")
-            return redirect("book_list")
+            return redirect("list_books")
     else:
         form = AuthenticationForm()
     return render(request, "relationship_app/login.html", {"form": form})
@@ -118,3 +118,5 @@ def delete_book(request, pk):
         book.delete()
         return redirect("book_list")
     return render(request, "relationship_app/delete_book.html", {"book": book})
+def index(request):
+    return HttpResponse("Welcome to the Library Management System u")
