@@ -18,7 +18,7 @@ def signup_view(request):
     else:
 
             form=SignupForm()
-    return render(request, "signup.html", {"form":form})
+    return render(request, "register.html", {"form":form})
     
 def login_view(request):
   if request.method == "POST":
