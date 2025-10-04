@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Blog Posts</title>
+</head>
+<body>
+    <h1>All Blog Posts</h1>
+
+    {% if object_list %}
+        <ul>
+            {% for post in object_list %}
+                <li>
+                    <h2>{{ post.title }}</h2>
+                    <p>{{ post.content|truncatewords:20 }}</p>
+                    <small>By {{ post.author }} | {{ post.date_posted }}</small><br>
+                    <a href="{% url 'post-detail' post.id %}">Read More</a>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No blog posts available yet.</p>
+    {% endif %}
+
+    <a href="{% url 'CreateblogPost' %}">Create a New Post</a>
+</body>
+</html>
