@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ object.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+        }
+        .post-container {
+            background: #fff;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        p {
+            color: #444;
+            line-height: 1.6;
+        }
+        .meta {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="post-container">
+    <h1>{{ object.title }}</h1>
+    <div class="meta">
+        Posted by <strong>{{ object.author }}</strong> on {{ object.date_posted|date:"F d, Y" }}
+    </div>
+    <p>{{ object.content }}</p>
+
+<a href="{% url 'listblogPost' %}">← Back to all posts</a>
+
+<a href="{% url 'update-post' object.pk %}">← Update Post</a>
+
+<a href="{% url 'delete-post' object.pk %}">← Delete Post</a>
+</div>
+
+</body>
+</html>
