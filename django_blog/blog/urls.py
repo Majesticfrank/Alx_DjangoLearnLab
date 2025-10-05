@@ -23,7 +23,7 @@ urlpatterns=[
     path("post/<int:pk>/delete/", views.DeletePostView.as_view(), 
   name="delete-post" ),
            # ✅ Comment routes
-     path('posts/<int:pk>/comments/new/', views.add_comment, name='add-comment'),
+     path('post/<int:pk>/comments/new/', views.add_comment, name='add-comment'),
 
 
     path('comment/<int:pk>/update/', views.CommentUpdateView.as_view(), name='edit-comment'),
