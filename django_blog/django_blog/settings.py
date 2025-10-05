@@ -56,7 +56,7 @@ ROOT_URLCONF = "django_blog.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        'DIRS': [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -125,10 +125,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
-# Directory for static files (during development)
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
 
 # Directory where collectstatic will place files for production
 STATIC_ROOT = BASE_DIR / "staticfiles"
