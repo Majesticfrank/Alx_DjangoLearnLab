@@ -18,6 +18,16 @@
     </div>
 </div>
 
+
+<p>Tags:
+  {% for tag in object.tags.all %}
+    <a href="{% url 'posts-by-tag' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+  {% empty %}
+    No tags
+  {% endfor %}
+</p>
+
+
 <!-- <h2>{{ post.title }}</h2>
 <p>{{ post.content }}</p> -->
 {% include 'blog/comment_list.html' with post=post %}

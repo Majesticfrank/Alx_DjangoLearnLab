@@ -25,7 +25,12 @@
                     <li><a href="{% url 'CreateblogPost' %}">New Post</a></li>
                       
                         
-                </ul>
+                </ul><form method="get" action="{% url 'search-posts' %}">
+  <input type="text" name="q" placeholder="Search posts or tags..." required>
+  <button type="submit">Search</button>
+</form>
+
+
             </nav>
         </div>
     </header>
