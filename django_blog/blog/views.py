@@ -117,27 +117,6 @@ class DeletePostView(DeleteView):
 
 #Comments CRUD
 
-# @login_required(login_url='login')  # Optional: only required if posting comments
-# def post_detail(request, pk):
-#     post = get_object_or_404(post, pk=pk)
-#     comments = post.comments.all().order_by('-created_at')
-#     form = CommentForm()
-
-#     if request.method == 'POST':
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             comment = form.save(commit=False)
-#             comment.post = post
-#             comment.author = request.user
-#             comment.save()
-#             return redirect('post-detail', pk=post.pk)  # Reload the page
-
-#     context = {
-#         'post': post,
-#         'comments': comments,
-#         'form': form
-#     }
-#     return render(request, 'blog/post_detail.html', context)
 
 
 def add_comment(request, post_id):
@@ -156,6 +135,22 @@ def add_comment(request, post_id):
         form = CommentForm()
     
     return render(request, 'blog/comment_form_inline.html', {'form': form, 'post': post})
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/comment_form_inline.html'
+
+    def form_valid(self, form):
+        post = get_object_or_404(Post, id=self.kwargs['post_id'])
+        form.instance.post = post
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        post = get_object_or_404(Post, id=self.kwargs['post_id'])
+        return reverse('post-detail', kwargs={'pk': post.id})
 
 
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
