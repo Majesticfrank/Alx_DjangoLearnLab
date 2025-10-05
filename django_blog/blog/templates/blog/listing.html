@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>All Blog Posts</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}All Blog Posts{% endblock %}
+
+{% block content %}
     <h1>All Blog Posts</h1>
 
     {% if object_list %}
@@ -23,6 +21,7 @@
         <p>No blog posts available yet.</p>
     {% endif %}
 
-    <a href="{% url 'CreateblogPost' %}">Create a New Post</a>
-</body>
-</html>
+    <div style="text-align:center; margin-top: 20px;">
+        <a href="{% url 'CreateblogPost' %}" class="btn">Create a New Post</a>
+    </div>
+{% endblock %}

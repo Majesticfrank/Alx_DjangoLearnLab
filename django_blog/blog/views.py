@@ -10,7 +10,7 @@ from  django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 # Create your views here.
 
 def home(request):
-    return render(request, "blog/home.html")
+    return render(request, "blog/base.html")
 
 def signup_view(request):
     if request.method == 'POST':
@@ -61,7 +61,7 @@ def logout_view(request):
 
 class ListPostView(ListView):
     model = post 
-    template_name ="blog/Listview.html"
+    template_name ="blog/listing.html"
     context_object_name ="post"
     ordering =['-published_date']
 
@@ -70,7 +70,7 @@ class ListPostView(ListView):
 class CreatePostView(CreateView):
     model = post
     fields = ['title', 'content' ]
-    template_name ="blog/Createview.html"
+    template_name ="blog/creating.html"
 
 
     def form_valid(self, form):
@@ -80,7 +80,7 @@ class CreatePostView(CreateView):
 # 3. details of a post 
 class DetailPostView(DetailView):
     model = post
-    template_name = 'blog/Detailview.html'
+    template_name = 'blog/post_details.html'
 
 
 # 4. update a blog post 
@@ -90,7 +90,7 @@ class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     model = post 
     fields =["title", "content"]
-    template_name ="blog/updatepost.html"
+    template_name ="blog/editing.html"
 
 
 
@@ -106,5 +106,5 @@ class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class DeletePostView(DeleteView):
     model = post
-    template_name = "blog/Deleteview.html"
+    template_name = "blog/deleting.html"
     success_url = reverse_lazy('listblogPost')
