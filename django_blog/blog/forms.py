@@ -1,7 +1,8 @@
 from django import forms 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Comment, Post, Tag
+from .models import Comment, Post
+from taggit.forms import TagWidget
 
 
 
@@ -37,19 +38,14 @@ class CommentForm(forms.ModelForm):
             raise forms.ValidationError("Comment is too short — please write a bit more.")
         return content
 class PostForm(forms.ModelForm):
-    tags = forms.CharField(required=False, help_text="Enter tags separated by commas")
-
     class Meta:
         model = Post
-        fields = ['title', 'content', 'tags']
-
-    # def save(self, commit=True):
-    #     instance = super().save(commit=False)
-    #     if commit:
-    #         instance.save()
-    #     tag_names = [t.strip() for t in self.cleaned_data['tags'].split(',') if t.strip()]
-    #     instance.tags.clear()
-    #     for tag_name in tag_names:
-    #         tag, created = Tag.objects.get_or_create(name=tag_name)
-    #         instance.tags.add(tag)
-    #     return instance
+        fields = ['title', 'content', 'tags']  # include tags
+        widgets = {
+            'tags': TagWidget(attrs={
+                'class': 'form-control',
+                'placeholder': 'Add tags separated by commas...',
+            }),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
+        }

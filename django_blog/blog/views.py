@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from .models import Post, Comment
 from django.db.models import Q
 from taggit.models import Tag  # ✅ import from taggit
+from .forms import PostForm, CommentForm
 
 # ------------------------------
 # Authentication Views
@@ -72,7 +73,7 @@ class ListPostView(ListView):
 
 class CreatePostView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content', 'tags']  # ✅ include tags
+    form_class = PostForm
     template_name = "blog/post_form.html"
 
     def form_valid(self, form):
@@ -88,7 +89,7 @@ class DetailPostView(DetailView):
 
 class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ["title", "content", "tags"]  # ✅ include tags
+    form_class = PostForm  # ✅ include tags
     template_name = "blog/editing.html"
 
     def form_valid(self, form):
