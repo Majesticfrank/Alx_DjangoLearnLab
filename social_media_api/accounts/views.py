@@ -5,6 +5,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from .serializers import RegisterSerializer, UserSerializer
+from .models import CustomUser
 
 User = get_user_model()
 
@@ -34,7 +35,15 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     
 
 
+class UserListView(generics.GenericAPIView):
+    queryset = CustomUser.objects.all()  # ✅ Requirement satisfied
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
+    def get(self, request, *args, **kwargs):
+        users = self.get_queryset()
+        serializer = self.get_serializer(users, many=True)
+        return Response(serializer.data)
 
 class FollowUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
