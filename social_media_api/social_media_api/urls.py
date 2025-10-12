@@ -17,9 +17,17 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
+
+
+def home(request):
+    return HttpResponse("welcome to the social Media API")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/accounts/', include('accounts.urls')),
     path('api/', include('posts.urls')),
+     path('', home),  
+     path('posts/', include('posts.urls')),
+    path('notifications/', include('notifications.urls')),
 ]
