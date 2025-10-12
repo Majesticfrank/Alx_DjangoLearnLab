@@ -1,10 +1,9 @@
 from django.shortcuts import render
-from rest_framework import viewsets, permissions, filters, status
+from rest_framework import viewsets, permissions, filters, status,generics
 from .models import Post, Comment,Like
 from .serializers import PostSerializer, CommentSerializer, LikeSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from notifications.models import Notification
 from django.contrib.contenttypes.models import ContentType
 
@@ -55,14 +54,15 @@ class LikePostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)  # ✅ Correct usage here
+        # ✅ Using DRF’s generics.get_object_or_404 instead of django.shortcuts.get_object_or_404
+        post = generics.get_object_or_404(Post, pk=pk)
 
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if not created:
             return Response({'message': 'You already liked this post.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Create a notification if someone else liked the post
+        # Create a notification when another user likes the post
         if post.author != request.user:
             Notification.objects.create(
                 recipient=post.author,
@@ -78,7 +78,7 @@ class UnlikePostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)  # ✅ Same fix here
+        post = generics.get_object_or_404(Post, pk=pk)  # ✅ use this form here too
         like = Like.objects.filter(user=request.user, post=post).first()
 
         if not like:
