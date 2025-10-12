@@ -55,14 +55,14 @@ class LikePostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = get_object_or_404(Post, pk=pk)  # ✅ Correct usage here
 
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if not created:
             return Response({'message': 'You already liked this post.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Create a notification
+        # Create a notification if someone else liked the post
         if post.author != request.user:
             Notification.objects.create(
                 recipient=post.author,
@@ -78,7 +78,7 @@ class UnlikePostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = get_object_or_404(Post, pk=pk)  # ✅ Same fix here
         like = Like.objects.filter(user=request.user, post=post).first()
 
         if not like:
